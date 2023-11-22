@@ -11,8 +11,9 @@ mod Lexer {
     /// token that should be produced.
     pub type alias TokenMatcher[token] = (Regex, String -> Option[token])
 
-    /// Returns a list of tokens according to `matchers` (EOF is handled by internally).
+    /// Returns a list of tokens according to `matchers`.
     /// Returns `Err` if a running suffix cannot be matched by any token matcher.
+    /// Note that EOF is handled by internally and cannot be produced by a matcher.
     pub def lex(input: String, matchers: List[TokenMatcher[token]]): Result[LexError, List[token]] with Eq[token] = {
         if (Regex.isMatch(regex"\\z", input)) Ok(Nil) else
         for (
