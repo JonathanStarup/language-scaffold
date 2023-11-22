@@ -1,6 +1,6 @@
 [package]
-name        = "easy-parsing"
-description = "test"
+name        = "language-scaffold"
+description = "When you want to create a language prototype quickly and without fuzz."
 version     = "0.1.0"
 flix        = "0.41.0"
-authors     = ["John Doe <john@example.com>"]
+authors     = ["Matthew Lutze", "Jonathan Lindegaard Starup"]
