@@ -1,4 +1,3 @@
-# easy-parsing
+# Langauge Scaffold
 
-Enter some useful information.
-
+When you want to create a language prototype quickly and without fuzz.
