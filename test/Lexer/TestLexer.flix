@@ -1,6 +1,6 @@
 mod Test.TestLexer {
     use Lexer.lex;
-    use Lexer.Examples;
+    use Examples;
 
     @test
     pub def skiExample(): Bool = {

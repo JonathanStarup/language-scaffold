@@ -1,11 +1,5 @@
 mod Lexer {
 
-    /// An error indicating the the string inside could not be matched by any
-    /// `TokenMatcher`
-    pub enum LexError with ToString, Eq {
-        case LexError(String)
-    }
-
     /// A pair of a regex pattern, describing the token syntactically, and
     /// a function that receives the string matched, and optionally returns a
     /// token that should be produced.
@@ -14,7 +8,7 @@ mod Lexer {
     /// Returns a list of tokens according to `matchers`.
     /// Returns `Err` if a running suffix cannot be matched by any token matcher.
     /// Note that EOF is handled by internally and cannot be produced by a matcher.
-    pub def lex(input: String, matchers: List[TokenMatcher[token]]): Result[LexError, List[token]] with Eq[token] = {
+    pub def lex(input: String, matchers: List[TokenMatcher[token]]): Result[String, List[token]] with Eq[token] = {
         if (Regex.isMatch(regex"\\z", input)) Ok(Nil) else
         for (
             (token, suffix) <- lexOne(input, matchers);
@@ -25,13 +19,13 @@ mod Lexer {
     /// Returns the output of the first matcher that can match a prefix of
     /// `input` along with the respective suffix.
     /// Returns `Err` if no matcher can accept a prefix.
-    def lexOne(input: String, matchers: List[TokenMatcher[token]]): Result[LexError, (Option[token], String)] = {
+    def lexOne(input: String, matchers: List[TokenMatcher[token]]): Result[String, (Option[token], String)] = {
         let matcher = match (r, tokenizer) -> {
             for (
                 (m, suffix) <- matchFirst(input, r)
             ) yield (tokenizer(m), suffix)
         };
-        matchers |> List.findMap(matcher) |> Option.toOk(LexError.LexError(input))
+        matchers |> List.findMap(matcher) |> Option.toOk(input)
     }
 
     /// Returns (prefix, suffix) if `r` matches some prefix of `input`.

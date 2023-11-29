@@ -1,5 +1,4 @@
 def main(): Unit \ IO = {
-    // let input = "let f = fun x -> asdf x in (f f) f ";
-    let input = "fun x -> asdf x";
-    Lexer.lex(input, Lexer.Examples.Lc.matchers()) |> Result.map(parse) |> println
+    let input = "-a ^ b * c ^ d + e ^ f / g ^ (h - i)";
+    Examples.Arithmetic.parse(input) |> println
 }
