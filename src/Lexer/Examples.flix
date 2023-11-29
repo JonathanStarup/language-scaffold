@@ -43,4 +43,23 @@ mod Lexer.Examples {
         }
     }
 
+    mod Lc {
+        pub enum Token with Eq, ToString {
+            case Fun
+            case Arrow
+            case Var(String)
+            case LParen
+            case RParen
+        }
+
+        pub def matchers(): List[Lexer.TokenMatcher[Token]] = List#{
+            (regex"fun\\b", _ -> Some(Token.Fun)),
+            (regex"->", _ -> Some(Token.Arrow)),
+            (regex"\\(", _ -> Some(Token.LParen)),
+            (regex"\\)", _ -> Some(Token.RParen)),
+            (regex"\\w+", s -> Some(Token.Var(s))),
+            (regex"\\s", _ -> None)
+        }
+    }
+
 }

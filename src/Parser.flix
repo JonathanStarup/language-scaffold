@@ -1,21 +1,12 @@
-use Token.{Fun, Arrow, Var, LParen, RParen}
+use Lexer.Examples.Lc.Token.{Fun, Arrow, Var, LParen, RParen}
+use Lexer.Examples.Lc.Token
 
-enum Expr {
+enum Expr with ToString {
     case Lam(String, Expr)
     case App(Expr, Expr)
     case Var(String)
 }
 
-pub enum Token with Eq, ToString {
-    case Fun
-    case Arrow
-    case Var(String)
-    // case Let
-    // case Eq
-    // case In
-    case LParen
-    case RParen
-}
 enum Error {
     case Error
 }
@@ -29,14 +20,14 @@ def parseExpr(): Parser[Expr] = {
 }
 
 def parseFun(): Parser[Expr] = 
-    require(Fun) ++> parseVarName() <++ require(Arrow) +++ parseExpr() >> map(match (var, expr) -> Expr.Lam(var, expr))
+    (((require(Fun) ++> parseVarName()) <++ require(Arrow)) +++ parseExpr()) >> map(match (var, expr) -> Expr.Lam(var, expr))
 
 def parseApp(): Parser[Expr] = {
     parseElem() ||| ((parseApp() +++ parseExpr()) >> map(match (e1, e2) -> Expr.App(e1, e2)))
 }
 
 def parseElem(): Parser[Expr] = {
-    (require(LParen) ++> parseExpr() <++ require(RParen)) ||| parseVar()
+    ((require(LParen) ++> parseExpr()) <++ require(RParen)) ||| parseVar()
 }
 
 def parseVar(): Parser[Expr] = l -> match l {
