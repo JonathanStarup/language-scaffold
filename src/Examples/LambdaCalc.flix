@@ -19,7 +19,7 @@ mod Examples.LambdaCalc {
     pub def parse(s: String): Result[String, Ast] = {
         for (
             tokens <- lex(s);
-            ast <- Parser.parse(tokens, Ast.parseAst)
+            ast <- Parser.RecursiveDecent.parse(tokens, Ast.parseAst)
         ) yield ast
     }
 
@@ -36,8 +36,8 @@ mod Examples.LambdaCalc {
 
     mod Ast {
         use Examples.LambdaCalc.Token
-        use Parser.Parser
-        use Parser.{<++, eof, |||, +++, ++>, require, map}
+        use Parser.RecursiveDecent.Parser
+        use Parser.RecursiveDecent.{<++, eof, |||, +++, ++>, require, map}
 
         pub def parseAst(l: List[Token]): Option[(Ast, List[Token])] = l |> {
             parseFun ||| parseApp

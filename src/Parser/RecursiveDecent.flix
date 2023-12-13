@@ -1,4 +1,4 @@
-mod Parser {
+mod Parser.RecursiveDecent {
     pub type alias ParserStream[token] = List[token]
     pub type alias ParserOutput[token, a] = Option[(a, ParserStream[token])]
     pub type alias Parser[token, a] = ParserStream[token] -> ParserOutput[token, a]

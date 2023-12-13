@@ -26,7 +26,7 @@ mod Examples.Arithmetic {
     pub def parse(s: String): Result[String, Ast] = {
         for (
             tokens <- lex(s);
-            ast <- Parser.parse(tokens, Ast.parseE)
+            ast <- Parser.RecursiveDecent.parse(tokens, Ast.parseE)
         ) yield ast
     }
 
@@ -45,8 +45,8 @@ mod Examples.Arithmetic {
     }
 
     mod Ast {
-        use Parser.{Parser, ParserStream, ParserOutput}
-        use Parser.{<++, eof, |||, +++, ++>, require, map, parseOne, zeroOrMore, optional, requireWith}
+        use Parser.RecursiveDecent.{Parser, ParserStream, ParserOutput}
+        use Parser.RecursiveDecent.{<++, eof, |||, +++, ++>, require, map, parseOne, zeroOrMore, optional, requireWith}
         use Examples.Arithmetic.Token
 
         pub type alias Stream = ParserStream[Token]
